@@ -1,24 +1,6 @@
 # manage_hm
 
-## Project setup
-```
-yarn install
-```
+> 用于Vue框架的学习和练习
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+### 目录结构说明
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
