@@ -4,19 +4,26 @@
             <common-aside></common-aside>
         </el-aside>
         <el-container>
-            <el-header>Header</el-header>
-            <el-main>Main</el-main>
+            <el-header>
+                <!-- vue特性,驼峰命名法要换成小写字母单词横线隔开命名 -->
+                <common-header>
+
+                </common-header>
+            </el-header>
+            <!-- router-view是展示嵌套路由的组件. -->
+            <router-view></router-view>
         </el-container>
     </el-container>
 </template>
 <script>
 import CommonAside from '../src/components/CommonAside.vue'
-
+import CommonHeader from '../src/components/CommonHeader.vue'
 
 export default {
     name: 'Home',
     components: {
-        CommonAside
+        CommonAside,
+        CommonHeader
     },
     data() {
         return {}

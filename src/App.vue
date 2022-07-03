@@ -20,6 +20,11 @@ export default {
 </script>
 
 <style>
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 #app {
   height: 100vh;
 }

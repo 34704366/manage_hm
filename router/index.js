@@ -9,13 +9,26 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: '/',
-        name: 'Home',
-        component: () => import('../views/Home.vue')
-    },
-    {
-        path: '/user',
-        name: 'User',
-        component: () => import('../views/User.vue')
+        name: 'Index',
+        component: () => import('../views/Index.vue'),
+        children: [
+            {
+                path: '/home',
+                name: 'home',
+                component: () => import('../views/Home')
+            },
+            {
+                path: '/mall',
+                name: 'mall',
+                component: () => import('../views/Mall')
+            },
+            {
+                path: '/user',
+                name: 'user',
+                component: () => import('../views/User')    // 如果是文件夹，不要加.vue
+            },
+            
+        ]
     }
 ]
 
