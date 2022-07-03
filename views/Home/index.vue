@@ -30,7 +30,9 @@ export default {
             userName: 'Admin',
             userAccess: '管理员',
             oldLoginTime: '2022-7-3',
-            oldLoginLocation: '广州市'
+            oldLoginLocation: '广州市',
+
+            mockServer: "http://127.0.0.1:4523/mock/1223322",
         }
     }
 }
