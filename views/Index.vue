@@ -32,7 +32,18 @@ export default {
 </script>
 
 <!-- 添加scoped可以实现组件的私有化，不影响全局样式 -->
-<style lang="less" scoped>
+<style lang="less">
+
+// 消除由滚动条造成的左右闪动
+html, body {
+  height: 100%;
+  overflow: auto;
+  margin: 0;
+}
+html{
+  overflow-y: auto;
+}
+
 .el-header {
     background-color: black;
 }

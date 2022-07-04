@@ -1,6 +1,6 @@
 <template>
     <el-row class="content" :gutter="20">
-        <el-col :span="8" class="el-col-box">
+        <el-col :span="12" class="el-col-box">
             <el-card shadow="hover">
                 <div class="userCard">
                     <img :src="userAvatar" alt="用户头像">
@@ -18,6 +18,14 @@
                     </p>
                 </div>
             </el-card>
+            <el-card style="margin-top: 25px; height:400px">
+                <el-table :data="tableData" style="width:99.9%">
+                    <el-table-column v-for="(value, key) in tableLabel" :key="key"
+                    :prop="key" :label="value">
+
+                    </el-table-column>
+                </el-table>
+            </el-card>
         </el-col>
     </el-row>
 </template>
@@ -33,6 +41,52 @@ export default {
             oldLoginLocation: '广州市',
 
             mockServer: "http://127.0.0.1:4523/mock/1223322",
+
+            tableData: [
+                {
+                    name: 'oppo',
+                    todaySales: 100,
+                    monthSales: 300,
+                    totalSales: 800
+                },
+                {
+                    name: 'vivo',
+                    todaySales: 200,
+                    monthSales: 500,
+                    totalSales: 1000
+                },
+                {
+                    name: '小米',
+                    todaySales: 300,
+                    monthSales: 600,
+                    totalSales: 1200
+                },
+                {
+                    name: '苹果',
+                    todaySales: 150,
+                    monthSales: 350,
+                    totalSales: 1000
+                },
+                {
+                    name: '三星',
+                    todaySales: 80,
+                    monthSales: 200,
+                    totalSales: 600
+                },
+                {
+                    name: '魅族',
+                    todaySales: 60,
+                    monthSales: 200,
+                    totalSales: 700
+                },
+            ],
+            tableLabel: {
+                name: '品牌',
+                todaySales: '今日销量',
+                monthSales: '本月销量',
+                totalSales: '总销量',
+            }
+            
         }
     }
 }
@@ -40,6 +94,7 @@ export default {
 
 
 <style scoped>
+
 .content .el-col-box {
     margin: 10px 10px;
 }
