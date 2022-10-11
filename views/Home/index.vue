@@ -1,6 +1,6 @@
 <template>
     <el-row class="content" :gutter="20">
-        <el-col :span="12" class="el-col-box">
+        <el-col :span="8" class="el-col-box">
             <el-card shadow="hover">
                 <div class="userCard">
                     <img :src="userAvatar" alt="用户头像">
@@ -22,10 +22,17 @@
                 <el-table :data="tableData" style="width:99.9%">
                     <el-table-column v-for="(value, key) in tableLabel" :key="key"
                     :prop="key" :label="value">
-
                     </el-table-column>
                 </el-table>
             </el-card>
+        </el-col>
+        <el-col :span="16">
+            <div>
+                <el-card v-for="item,index in countData" :key="index" class="info-card">
+                    <i class="card-icon" :class="`el-icon-${item.icon}`" :style="{background: item.color}"></i>
+                </el-card>
+            </div>
+
         </el-col>
     </el-row>
 </template>
@@ -85,7 +92,48 @@ export default {
                 todaySales: '今日销量',
                 monthSales: '本月销量',
                 totalSales: '总销量',
-            }
+            },
+
+            countData: [
+                {
+                    name: '今日支付订单',
+                    value: 1234,
+                    icon: 'success',
+                    color: '#2ec7c9',
+                },
+                {
+                    name: '今日收藏订单',
+                    value: 210,
+                    icon: 'star-on',
+                    color: '#ffb980',
+                },
+                {
+                    name: '今日未支付订单',
+                    value: 1234,
+                    icon: 's-goods',
+                    color: '#5ab1ef',
+                },
+                {
+                    name: '本月支付订单',
+                    value: 1234,
+                    icon: 'success',
+                    color: '#2ec7c9',
+                },
+                {
+                    name: '本月收藏订单',
+                    value: 210,
+                    icon: 'star-on',
+                    color: '#ffb980',
+                },
+                {
+                    name: '本月未支付订单',
+                    value: 1234,
+                    icon: 's-goods',
+                    color: '#5ab1ef',
+                },
+            ]
+
+
             
         }
     }
@@ -94,6 +142,11 @@ export default {
 
 
 <style scoped>
+
+.content {
+    display: flex;
+    flex-direction: row;
+}
 
 .content .el-col-box {
     margin: 10px 10px;
