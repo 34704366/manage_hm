@@ -1,40 +1,61 @@
 <template>
-    <el-row class="content" :gutter="20">
-        <el-col :span="8" class="el-col-box">
-            <el-card shadow="hover">
-                <div class="userCard">
-                    <img :src="userAvatar" alt="用户头像">
-                    <div class="userInfo">
-                        <p class="name">{{userName}}</p>
-                        <p class="access">{{userAccess}}</p>
+    <div>
+        <el-row class="content" :gutter="20">
+            <el-col :span="8" class="el-col-box">
+                <el-card shadow="hover">
+                    <div class="userCard">
+                        <img :src="userAvatar" alt="用户头像">
+                        <div class="userInfo">
+                            <p class="name">{{userName}}</p>
+                            <p class="access">{{userAccess}}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="loginInfo">
-                    <p>
-                        上次登录时间：{{oldLoginTime}}
-                    </p>
-                    <p>
-                        上次登录地点：{{oldLoginLocation}}
-                    </p>
-                </div>
-            </el-card>
-            <el-card style="margin-top: 25px; height:400px">
-                <el-table :data="tableData" style="width:99.9%">
-                    <el-table-column v-for="(value, key) in tableLabel" :key="key"
-                    :prop="key" :label="value">
-                    </el-table-column>
-                </el-table>
-            </el-card>
-        </el-col>
-        <el-col :span="16">
-            <div>
-                <el-card v-for="item,index in countData" :key="index" class="info-card">
-                    <i class="card-icon" :class="`el-icon-${item.icon}`" :style="{background: item.color}"></i>
+                    <div class="loginInfo">
+                        <p>
+                            上次登录时间：{{oldLoginTime}}
+                        </p>
+                        <p>
+                            上次登录地点：{{oldLoginLocation}}
+                        </p>
+                    </div>
                 </el-card>
-            </div>
+                <el-card style="margin-top: 25px; height:400px">
+                    <el-table :data="tableData" style="width:99.9%">
+                        <el-table-column v-for="(value, key) in tableLabel" :key="key"
+                        :prop="key" :label="value">
+                        </el-table-column>
+                    </el-table>
+                </el-card>
+            </el-col>
+            <el-col :span="16">
+                <div>
+                    <el-card v-for="item,index in countData" :key="index" class="info-card">
+                        <i class="card-icon" :class="`el-icon-${item.icon}`" :style="{background: item.color}"></i>
+                    </el-card>
+                </div>
 
-        </el-col>
-    </el-row>
+            </el-col>
+        </el-row>
+
+        <!-- 测试过滤器 -->
+        <div id="div1">
+            <table align="center" >
+                <tr class="firstLine">
+                    <td>输入数据</td>
+                    <td>过滤后的结果</td>
+                </tr>      
+                <tr>
+                    <td align="center">
+                        <input v-model= "data"  />
+                    </td>
+                    <td align="center">
+                        {{ data|capitalize|capitalizeLastLetter }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div v-xart="{color:'blue'}">test</div>
+    </div>
 </template>
 <script>
 export default {
@@ -131,13 +152,53 @@ export default {
                     icon: 's-goods',
                     color: '#5ab1ef',
                 },
-            ]
+            ],
+
+            data: '',
 
 
             
         }
+    },
+
+    // 过滤器
+    filters: {
+        capitalize: value => {
+            // 如果value不存在
+            if (!value || value == undefined) {
+                return " "
+            }
+            let result = value.charAt(0).toUpperCase() + value.substring(1)
+            return result;
+        },
+        capitalizeLastLetter: value => {
+            // 如果value不存在
+            if (!value || value == undefined) {
+                return " "
+            }
+            value = value.toString();
+            return value.substring(0, value.length - 1) + value.charAt(value.length - 1).toUpperCase();
+        }
+
     }
 }
+
+import Vue from 'vue'
+
+// 自定义指令，第一个参数是dom对象，第二个参数用来接收参数，参数存在binding.value
+Vue.directive('xart',{
+    // 自定义指令的钩子函数
+    bind: function (el, binding, vnode) {
+        console.log(el, binding, vnode)
+      },
+}, function (el, binding) {
+    
+	el.innerHTML = el.innerHTML + '—— 自定义指令( v-xart ) '
+    console.log(binding.value)
+	el.style.color = binding.value.color;
+
+
+})
 </script>
 
 
@@ -177,5 +238,9 @@ export default {
 
 .content .el-col-box .loginInfo >p {
     font-size: 13px;
+}
+
+tr.firstLine{
+    background-color: lightGray;
 }
 </style>
