@@ -7,7 +7,7 @@
             <el-header>
                 <!-- vue特性,驼峰命名法要换成小写字母单词横线隔开命名 -->
                 <common-header>
-
+                    
                 </common-header>
             </el-header>
             <!-- router-view是展示嵌套路由的组件. -->
