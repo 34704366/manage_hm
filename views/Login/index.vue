@@ -67,11 +67,13 @@
             <br>
             <social-sign />
         </el-dialog>
+        <button @click="test">test</button>
     </div>
 </template>
 
 <script>
 import { validUsername } from '../../src/utils/validate'
+
 export default {
     name: "Login",
     data() {
@@ -153,7 +155,20 @@ export default {
             Object.keys(query).reduce((acc, cur) => {
                 console.log(acc, cur, query)
             })
-        }  
+        },
+
+        test() {
+            console.log(this.$store.state);
+            let name = 'new user';
+            this.$store.dispatch('user/user_login', name)
+            .then(() => {
+                console.log('success');
+            }, err => {
+                console.warn(`has error:${err}`);
+            })
+        },
+
+
     }
 }
 
