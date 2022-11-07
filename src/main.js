@@ -6,11 +6,13 @@ import App from './App.vue'
 import router from '../router'
 import store from './store'
 import http from 'axios'
+import SvgIcon from './components/SvgIcon'
 
 
-
-Vue.config.productionTip = false
-Vue.use(ElementUI)
+Vue.config.productionTip = false;
+Vue.use(ElementUI);
+// 全局注册SvgIcon组件
+Vue.component('svg-icon', SvgIcon);
 
 Vue.prototype.$http = http
 
