@@ -16,6 +16,12 @@ Vue.component('svg-icon', SvgIcon);
 
 Vue.prototype.$http = http
 
+
+// 远程引入在线的iconfont字体库，线上需要修改成本地引入
+let sp = document.createElement('script');
+sp.src = '//at.alicdn.com/t/c/font_3753930_g1i9g3bbsht.js';
+document.body.appendChild(sp);
+
 new Vue({
   store,
   router,

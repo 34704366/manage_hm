@@ -5,12 +5,10 @@
             <div class="title-container">
                 <h3 class="title">Login Form</h3>
             </div>
-            
-            <i class="iconfont icon-QQ"></i>
 
             <el-form-item prop="username">
                 <span class="svg-container">
-                    <svg-icon icon-class="user" />
+                    <svg-icon icon-class="username" />
                 </span>
             <el-input
                 ref="username"
@@ -26,7 +24,7 @@
             <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
                 <el-form-item prop="password">
                     <span class="svg-container">
-                    <svg-icon icon-class="password" />
+                        <svg-icon icon-class="password" />
                     </span>
                     <el-input
                     :key="passwordType"
@@ -44,7 +42,7 @@
                 </el-form-item>
             </el-tooltip>
 
-            <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+            <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
             <div style="position:relative">
                 <div class="tips">
@@ -114,12 +112,12 @@ export default {
     watch: {
         $route: {
             handler: function(route) {
-                // const query = route.query
-                // if (query) {
-                //     this.redirect = query.redirect
-                //     this.otherQuery = this.getOtherQuery(query)
-                // }
-                console.log(route)
+                const query = route.query
+                if (query) {
+                    this.redirect = query.redirect
+                    this.otherQuery = this.getOtherQuery(query)
+                }
+                console.log(query)
             },
             immediate: true
         }
@@ -129,8 +127,8 @@ export default {
         handleLogin() {
             this.$refs.loginForm.validate(valid => {
                 if (valid) {
-                this.loading = true
-                this.$store.dispatch('user/login', this.loginForm)
+                    this.loading = true
+                    this.$store.dispatch('user/login', this.loginForm)
                     .then(() => {
                         this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
                         this.loading = false
@@ -140,10 +138,22 @@ export default {
                     })
                 } else {
                     console.log('error submit!!')
-                    return false
+                    return false;
                 }
             })
-        }   
+        },
+
+        getOtherQuery(query) {
+            // return Object.keys(query).reduce((acc, cur) => {
+            //     if (cur !== 'redirect') {
+            //         acc[cur] = query[cur]
+            //     }
+            //     return acc
+            // }, {})
+            Object.keys(query).reduce((acc, cur) => {
+                console.log(acc, cur, query)
+            })
+        }  
     }
 }
 
@@ -191,7 +201,7 @@ $light_gray:#eee;
   .title-container {
     position: relative;
     .title {
-      font-size: 26px;
+      font-size: 30px;
       color: $light_gray;
       margin: 0px auto 40px auto;
       text-align: center;
