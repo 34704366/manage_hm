@@ -64,22 +64,24 @@
         </el-form>
 
         <el-dialog title="Or connect with" :visible.sync="showDialog">
-            Can not be simulated on local, so please combine you own business simulation! ! !
-            <br>
+            暂无实现此功能
             <br>
             <br>
             <social-sign />
         </el-dialog>
-        <button @click="test">test</button>
+        <!-- <button @click="test">test</button> -->
     </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
-
+import SocialSign from './components/SocialSignIn'
 
 export default {
     name: "Login",
+    components: {
+        SocialSign
+    },
     data() {
         const validateUsername = (rule, value, callback) => {
             if (!validUsername(value)) {
