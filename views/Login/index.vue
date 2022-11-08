@@ -74,6 +74,7 @@
 <script>
 import { validUsername } from '@/utils/validate'
 
+
 export default {
     name: "Login",
     data() {
@@ -160,12 +161,16 @@ export default {
         test() {
             console.log(this.$store.state);
             let name = 'new user';
+            // 测试store
             this.$store.dispatch('user/user_login', name)
             .then(() => {
                 console.log('success');
             }, err => {
                 console.warn(`has error:${err}`);
             })
+            // process.env.VUE_APP_BASE_API在根目录.env.development中配置
+            console.log(process.env)
+            
         },
 
 
