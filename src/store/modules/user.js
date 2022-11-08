@@ -1,4 +1,6 @@
-
+import { login } from '@/api/user'
+import { setToken } from '@/utils/auth'
+import { Message } from 'element-ui'
 const state = {
     token: "123",
     name: '',
@@ -27,7 +29,7 @@ const mutations = {
 
 const actions = {
     // context.state保存局部状态对象，context.rootState保存根节点状态
-    user_login({commit, state, rootState}, name) {  
+    test({commit, state, rootState}, name) {  
         return new Promise((resolve, reject) => {
             if (name) {
                 commit('SET_NAME', name)
@@ -38,6 +40,29 @@ const actions = {
             } else {
                 reject("name can not be empty");
             }
+        })
+    },
+
+    login({commit}, userInfo) {
+        const { username, password } = userInfo;
+        return new Promise((resolve, reject) => {
+            login({ username: username.trim(), password: password })
+            .then(response => {
+                const { data } = response;
+                if (data.token) {
+                    commit('SET_TOKEN', data.token);
+                    setToken(data.token);
+                } else {
+                    Message({
+                        message: "服务器异常",
+                        type: 'error',
+                        duration: 5000
+                    })
+                }
+                resolve();
+            }).catch(error => {
+                reject(error);
+            })
         })
     }
 }
