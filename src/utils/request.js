@@ -18,7 +18,7 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
     config => {
-        // console.log('请求拦截器：',config)
+        console.log('请求拦截器：',config)
 
         // do something before request is sent
         if (store.getters.token) {

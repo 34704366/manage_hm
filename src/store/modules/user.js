@@ -1,8 +1,10 @@
-import { login } from '@/api/user'
-import { setToken } from '@/utils/auth'
+import { login, getInfo } from '@/api/user'
+import { setToken, getToken } from '@/utils/auth'
 import { Message } from 'element-ui'
+
+
 const state = {
-    token: "123",
+    token: "",
     name: '',
     avatar: "",
     introduction: '',
@@ -51,7 +53,9 @@ const actions = {
                 const { data } = response;
                 
                 if (data.token) {
+                    // set to vuex
                     commit('SET_TOKEN', data.token);
+                    // set token to browser
                     setToken(data.token);
                 } else {
                     console.log('登录请求服务端没有返回token',response)
@@ -62,6 +66,33 @@ const actions = {
                     })
                 }
                 resolve();
+            }).catch(error => {
+                reject(error);
+            })
+        })
+    },
+
+    // get userinfo
+    getInfo({ commit }) {
+        return new Promise((resolve, reject) => {
+            const token = getToken();
+            getInfo(token)
+            .then(response => {
+                const { data } = response;
+                if (!data) {
+                    reject('身份信息失效，请重新登录');
+                }
+                const { roles, name, avatar, introduction } = data;
+                // 验证roles
+                if (!roles || roles.length <= 0) {
+                    reject('获取了空权限数组');
+                }
+                
+                commit('SET_ROLES', roles);
+                commit('SET_NAME', name);
+                commit('SET_AVATAR', avatar);
+                commit('SET_INTRODUCTION', introduction);
+                resolve(data);
             }).catch(error => {
                 reject(error);
             })
