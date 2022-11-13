@@ -131,6 +131,21 @@ export default {
         }
     },
 
+    created() {
+        // window.addEventListener('storage', this.afterQRScan)
+    },
+    destroyed() {
+        // window.removeEventListener('storage', this.afterQRScan)
+    },
+    mounted() {
+        // 聚焦
+        if (this.loginForm.username === '') {
+            this.$refs.username.focus();
+        } else if (this.loginForm.password === '') {
+            this.$refs.password.focus();
+        }
+    },
+
     methods: {
         checkCapslock(e) {
             const { key } = e;
@@ -205,18 +220,60 @@ export default {
 
 
 
-<style lang="scss" scoped>
+<style lang="scss">
 
-
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
+$bg:#1b2c42;
 $light_gray:#eee;
+
+$cursor: #fff;
+
+@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
+  .login-container .el-input input {
+    color: $cursor;
+  }
+}
 .login-container {
   min-height: 100%;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
-  .login-form {
+  .el-input {
+    display: inline-block;
+    height: 47px;
+    width: 85%;
+    
+    input {
+        background: transparent;
+        border: 0px;
+        -webkit-appearance: none;
+        border-radius: 0px;
+        padding: 12px 5px 12px 15px;
+        color: $light_gray;
+        height: 47px;
+        caret-color: $cursor;
+
+        &:-webkit-autofill {
+            box-shadow: 0 0 0px 1000px $bg inset !important;
+            -webkit-text-fill-color: $cursor !important;
+        }
+    }
+  }
+  .el-form-item {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    color: #454545;
+  }
+}
+
+</style>
+
+<style lang="scss" scoped>
+$dark_gray:#5d635b;
+$icon_size: 18px;
+$light_gray:#eee;
+
+.login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
@@ -229,12 +286,14 @@ $light_gray:#eee;
     color: #fff;
     margin-bottom: 10px;
     span {
+        // first-of-type是选择首个指定元素
       &:first-of-type {
         margin-right: 16px;
       }
     }
   }
   .svg-container {
+    font-size: $icon_size;
     padding: 6px 5px 6px 15px;
     color: $dark_gray;
     vertical-align: middle;
@@ -243,6 +302,7 @@ $light_gray:#eee;
   }
   .title-container {
     position: relative;
+
     .title {
       font-size: 30px;
       color: $light_gray;
@@ -255,14 +315,14 @@ $light_gray:#eee;
     position: absolute;
     right: 10px;
     top: 7px;
-    font-size: 16px;
+    font-size: $icon_size;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
   }
   .thirdparty-button {
     position: absolute;
-    right: 0;
+    right: 20px;
     bottom: 6px;
   }
   @media only screen and (max-width: 470px) {
@@ -270,6 +330,4 @@ $light_gray:#eee;
       display: none;
     }
   }
-}
-
 </style>
