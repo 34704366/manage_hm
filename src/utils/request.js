@@ -18,7 +18,8 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
     config => {
-        console.log('请求拦截器：',config)
+        // console.log('请求拦截器：',config)
+
         // do something before request is sent
         if (store.getters.token) {
             // set token
@@ -36,7 +37,8 @@ service.interceptors.request.use(
 // response拦截器
 service.interceptors.response.use(
     response => {
-        console.log('响应拦截器：',response)
+        // console.log('响应拦截器：',response)
+        
         const res = response.data;
 
         if (res.statusCode != STATUS_CODE_SUCCESS) {

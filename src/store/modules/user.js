@@ -49,10 +49,12 @@ const actions = {
             login({ username: username.trim(), password: password })
             .then(response => {
                 const { data } = response;
+                
                 if (data.token) {
                     commit('SET_TOKEN', data.token);
                     setToken(data.token);
                 } else {
+                    console.log('登录请求服务端没有返回token',response)
                     Message({
                         message: "服务器异常",
                         type: 'error',
