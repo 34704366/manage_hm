@@ -21,7 +21,7 @@
                 />
             </el-form-item>
 
-            <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+            <el-tooltip v-model="capsTooltip" content="键盘大写锁定已开启" placement="right" manual>
                 <el-form-item prop="password">
                     <span class="svg-container">
                         <svg-icon icon-class="password" />
@@ -125,7 +125,7 @@ export default {
                     this.redirect = query.redirect
                     this.otherQuery = this.getOtherQuery(query)
                 }
-                console.log(query)
+                // console.log(query)
             },
             immediate: true
         }
@@ -184,16 +184,15 @@ export default {
             })
         },
 
+        // 将请求中query除redirect部分提取出来以map返回
         getOtherQuery(query) {
-            // return Object.keys(query).reduce((acc, cur) => {
-            //     if (cur !== 'redirect') {
-            //         acc[cur] = query[cur]
-            //     }
-            //     return acc
-            // }, {})
-            Object.keys(query).reduce((acc, cur) => {
-                console.log(acc, cur, query)
-            })
+            return Object.keys(query).reduce((acc, cur) => {
+                // console.log(acc, cur)
+                if (cur !== 'redirect') {
+                    acc[cur] = query[cur]
+                }
+                return acc
+            }, {})
         },
 
         test() {

@@ -56,7 +56,7 @@ export const asyncRoutes = [
         component: () => import('../views/Test/01'),
         name: 'test01',
         meta: {
-            role: ['admin', 'editor']
+            roles: ['admin', 'editor']
         }
     },
     {
@@ -64,7 +64,7 @@ export const asyncRoutes = [
         component: () => import('../views/Test/02'),
         name: 'test02',
         meta: {
-            role: ['admin']
+            roles: ['admin']
         }
     },
     

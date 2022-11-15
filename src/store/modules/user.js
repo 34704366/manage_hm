@@ -1,5 +1,5 @@
 import { login, getInfo } from '@/api/user'
-import { setToken, getToken } from '@/utils/auth'
+import { setToken, getToken, removeToken } from '@/utils/auth'
 import { Message } from 'element-ui'
 
 
@@ -96,6 +96,17 @@ const actions = {
             }).catch(error => {
                 reject(error);
             })
+        })
+    },
+
+    // reset token
+    resetToken({ commit }) {
+        return new Promise(resolve => {
+            commit('SET_TOKEN', '');
+            commit('SET_ROLES', []);
+            removeToken();   // 从浏览器中移除token
+
+            resolve();
         })
     }
 }

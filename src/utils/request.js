@@ -37,7 +37,7 @@ service.interceptors.request.use(
 // response拦截器
 service.interceptors.response.use(
     response => {
-        // console.log('响应拦截器：',response)
+        console.log('响应拦截器：',response)
         
         const res = response.data;
 

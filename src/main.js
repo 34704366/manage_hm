@@ -24,12 +24,14 @@ sp.src = '//at.alicdn.com/t/c/font_3753930_e9vuuh4sxm4.js';
 document.body.appendChild(sp);
 
 
+const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
+
 // 路由守卫函数（路由跳转时的钩子函数） to:将要执行的路由， from：现在的路由，
 // next：需要最后调用next函数resolve这个钩子函数，可以跳转到指定位置
 router.beforeEach(async(to, form, next) => {
   // start progress bar
   NProgress.start();
-  console.log(NProgress)
+
   // set page title
   document.title = 'this title'
 
@@ -48,40 +50,51 @@ router.beforeEach(async(to, form, next) => {
       // console.log(hasRoles)
       if (hasRoles) {
         // 如果已经有了权限
+        console.log('already permission')
         next();
       } else {
         try {
-          store.dispatch('user/getInfo').then(res => {
-            const { roles } = res;
+          const { roles } = await store.dispatch('user/getInfo')
+          
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          // 生成可访问的路由表
+          router.addRoutes(accessRoutes)    // 动态添加可访问的路由表
+          
+          // console.log(roles.a.a.a)
 
-            console.log(roles)
-            store.dispatch('permission/generateRoutes', roles).then(accessedRoutes => {
-              // 生成可访问的路由表
-              router.addRoutes(accessedRoutes)
-              
-              // console.log({ ...to, replace: true })
-              next({ ...to, replace: true })
-            }).catch(error => {
-              console.log(error)
-            })
-          }).catch(error => {
-            console.log(error);
-          })
+          // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+          next({ ...to, replace: true })
+          
         } catch (error) {
           // remove token and go to login page to re-login
-          // await store.dispatch('user/resetToken')
-
-          Message.error(error || 'has error')
-          console.log(error)
-          NProgress.done();
+          store.dispatch('user/resetToken').then(() => {
+            Message.error(error || 'has error')
+            console.log(error)
+            next(`/login?redirect=${to.path}`)
+            NProgress.done();
+          })
         }
       }
     }
     // console.log(router.options.routes)
-    next();
+    // next();
   } else {
     // 重新登录
+    console.log('re login')
+    Message.error( '登录状态过期，需要重新登录')
 
+    // 如果是不用登录的页面
+    if (whiteList.indexOf(to.path) >= 0) {
+      // 在白名单，直接跳转
+      next();
+    } else {
+      // re login
+      setTimeout(() => {
+        next(`/login?redirect=${to.path}`)
+        console.log(to.path)
+        NProgress.done();
+      }, 500)
+    }
   }
   
 })

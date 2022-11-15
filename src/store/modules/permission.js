@@ -1,9 +1,15 @@
 import { asyncRoutes, constantRoutes } from '../../../router'
 
+/**
+ * @param {Array} roles    用户权限列表
+ * @param {Object} route    路由  route.meta.roles是路由需要的权限
+ * @returns 
+ */
 let hasPermission = (roles, route) => {
     if (route.meta && route.meta.roles) {
-        return roles.some(role => {
-            route.meta.roles.includes(role);
+        return roles.some(role =>  {
+            // 注意箭头函数如果单行不写{}自动返回该行的内容
+            return route.meta.roles.includes(role);
         })
     } else {
         // 如果没有meta通常是404等通用页面，直接return true
@@ -56,6 +62,7 @@ const actions = {
                 // if admin, return all
                 accessedRoutes = asyncRoutes || []
             } else {
+                // console.log('妈的', roles)
                 accessedRoutes = filterAsyncRoutes(asyncRoutes, roles);
             }
             commit('SET_ROUTES', accessedRoutes)
