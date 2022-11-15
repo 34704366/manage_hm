@@ -51,7 +51,6 @@ router.beforeEach(async(to, form, next) => {
         next();
       } else {
         try {
-          // const { roles } = await store.dispatch('user/getInfo');
           store.dispatch('user/getInfo').then(res => {
             const { roles } = res;
 

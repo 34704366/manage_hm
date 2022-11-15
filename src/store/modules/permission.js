@@ -11,21 +11,28 @@ let hasPermission = (roles, route) => {
     }
 }
 
-
+/**
+ * 
+ * @param {Array} routes 
+ * @param {Array} roles 
+ */
 export function filterAsyncRoutes(routes, roles) {
     const res = [];
 
     routes.forEach(route => {
         const temp = { ...route }
-        console.log(temp);
+        // console.log(temp);
 
         if (hasPermission(roles, temp)) {
             if (temp.children) {
+                // 递归处理子节点
                 temp.children = filterAsyncRoutes(temp.children, roles);
             }
             res.push(temp);
         }
     })
+
+    return res
 }
 
 
@@ -36,8 +43,8 @@ const state = {
 
 const mutations = {
     SET_ROUTES: (state, routes) => {
-        state.addRoutes = routes;
-        state.routes = constantRoutes.concat(routes);
+        state.addRoutes = routes;     // addRoutes是动态添加的路由
+        state.routes = constantRoutes.concat(routes);     // routes是全部路由
     }
 }
 

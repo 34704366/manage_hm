@@ -185,7 +185,7 @@ export default {
     methods: {
         // test 
         test() {
-            console.log(this.$router)
+            console.log(this.$router.options)
         }
     }
 }
