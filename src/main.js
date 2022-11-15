@@ -7,6 +7,8 @@ import router from '../router'
 import store from './store'
 import SvgIcon from './components/SvgIcon'
 import NProgress from 'nprogress'
+import 'nprogress/nprogress.css' // progress bar style
+
 import { getToken } from '@/utils/auth'
  
 Vue.config.productionTip = false;
@@ -27,7 +29,7 @@ document.body.appendChild(sp);
 router.beforeEach(async(to, form, next) => {
   // start progress bar
   NProgress.start();
-
+  console.log(NProgress)
   // set page title
   document.title = 'this title'
 
@@ -40,18 +42,32 @@ router.beforeEach(async(to, form, next) => {
       next({
         path: '/'
       })
-      NProgress.done();
+      // NProgress.done();
     } else {
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
+      // console.log(hasRoles)
       if (hasRoles) {
         // 如果已经有了权限
         next();
       } else {
         try {
           // const { roles } = await store.dispatch('user/getInfo');
-          const result = await store.dispatch('user/getInfo')
-          console.log({ ...to, replace: true })
-          // next({ ...to, replace: true })
+          store.dispatch('user/getInfo').then(res => {
+            const { roles } = res;
+
+            console.log(roles)
+            store.dispatch('permission/generateRoutes', roles).then(accessedRoutes => {
+              // 生成可访问的路由表
+              router.addRoutes(accessedRoutes)
+              
+              // console.log({ ...to, replace: true })
+              next({ ...to, replace: true })
+            }).catch(error => {
+              console.log(error)
+            })
+          }).catch(error => {
+            console.log(error);
+          })
         } catch (error) {
           // remove token and go to login page to re-login
           // await store.dispatch('user/resetToken')
@@ -62,6 +78,7 @@ router.beforeEach(async(to, form, next) => {
         }
       }
     }
+    // console.log(router.options.routes)
     next();
   } else {
     // 重新登录
