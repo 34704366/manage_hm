@@ -54,7 +54,7 @@
                 </tr>
             </table>
         </div>
-        <div v-xart="{color:'blue'}">test</div>
+        <button v-xart="{color:'blue'}" @click="test">test</button>
     </div>
 </template>
 <script>
@@ -180,6 +180,13 @@ export default {
             return value.substring(0, value.length - 1) + value.charAt(value.length - 1).toUpperCase();
         }
 
+    },
+
+    methods: {
+        // test 
+        test() {
+            console.log(this.$router)
+        }
     }
 }
 
