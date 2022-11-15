@@ -13,10 +13,10 @@
                         <img :src="userAvatar" alt="用户头像">
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>个人中心</el-dropdown-item>
-                        <el-dropdown-item>退出登录</el-dropdown-item>
+                        <el-dropdown-item >个人中心</el-dropdown-item>
                         <el-dropdown-item>关于</el-dropdown-item>
-                        <el-dropdown-item disabled divided>王晨昊</el-dropdown-item>
+                        <el-dropdown-item disabled>王晨昊</el-dropdown-item>
+                        <el-dropdown-item divided @click.native="clickLogout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -36,6 +36,21 @@ export default {
         handleMenuCollpase() {
             this.$store.commit('collapseMenu');
         },
+
+        // 用户退出的回调函数
+        clickLogout() {
+            this.$confirm('确认是否重新登录', "用户退出", {
+                type: 'warning',
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+            }).then(() => {
+                this.$store.dispatch('user/logout').then(() => {
+                    this.$router.push(`/login?redirect=${this.$route.fullPath}`);   // redirect to this
+                })
+            }, error => {
+                console.log(error)
+            })
+        }
     }
 }
 </script>

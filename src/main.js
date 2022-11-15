@@ -81,7 +81,6 @@ router.beforeEach(async(to, form, next) => {
   } else {
     // 重新登录
     console.log('re login')
-    Message.error( '登录状态过期，需要重新登录')
 
     // 如果是不用登录的页面
     if (whiteList.indexOf(to.path) >= 0) {

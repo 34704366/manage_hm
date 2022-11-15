@@ -1,6 +1,7 @@
-import { login, getInfo } from '@/api/user'
+import { login, getInfo, logout } from '@/api/user'
 import { setToken, getToken, removeToken } from '@/utils/auth'
 import { Message } from 'element-ui'
+import { resetRouter } from '../../../router'
 
 
 const state = {
@@ -93,6 +94,27 @@ const actions = {
                 commit('SET_AVATAR', avatar);
                 commit('SET_INTRODUCTION', introduction);
                 resolve(data);
+            }).catch(error => {
+                reject(error);
+            })
+        })
+    },
+
+    // user logout
+    logout({ commit, state }) {
+        return new Promise((resolve, reject) => {
+            logout(state.token).then(() => {
+                commit('SET_TOKEN', "");
+                commit('SET_ROLES', []);
+                removeToken();     // 浏览器中重置token
+                resetRouter();     // 重置路由
+
+                // reset visited views and cached views
+                // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+                // dispatch('tagsView/delAllViews', null, { root: true })
+
+                resolve();
+                
             }).catch(error => {
                 reject(error);
             })
