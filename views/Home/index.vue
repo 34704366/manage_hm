@@ -20,9 +20,53 @@
                     </div>
                 </el-card>
                 <el-card style="margin-top: 25px; height:400px">
-                    <el-table :data="tableData" style="width:99.9%">
+                    <el-table v-loading="loading" border fit highlight-current-row :data="tableData" style="width:99.9%" id="sales_table">
                         <el-table-column v-for="(value, key) in tableLabel" :key="key"
                         :prop="key" :label="value">
+                        </el-table-column>
+                        <el-table-column align="center" label="editable" width="80">
+                            <template slot-scope="{row}">
+                                <template v-if="row.edit">
+                                    <el-input class="edit-input" v-model="row.name" size="small" placeholder=""></el-input>
+                                    <el-button
+                                        class="cancel-btn"
+                                        size="small"
+                                        icon="el-icon-refresh"
+                                        type="warning"
+                                        @click="cancelEdit(row)"
+                                    >
+                                        cancel
+                                    </el-button>
+                                </template>
+                                <span v-else>
+                                    {{row.name}}
+                                </span>
+                            </template>
+                        </el-table-column>
+                        <!-- 加上之后就没有横向滑动栏了暂时不知道为什么 -->
+                        <el-table-column align="center" label="Actions" width="120">
+                            <template v-slot="{row}">
+                                <el-button
+                                    v-if="!row.edit"
+                                    type="success"
+                                    size="small"
+                                    icon="el-icon-edit"
+                                    :id="row.name"
+                                    @click="row.edit = !row.edit"
+                                >
+                                    Edit
+                                </el-button>
+                                <el-button
+                                    v-else
+                                    type="primary"
+                                    size="small"
+                                    icon="el-icon-circle-check-outline"
+                                    :id="row.name"
+                                    @click="confirmEdit(row)"
+                                >
+                                    Ok
+                                </el-button>
+                            </template>
                         </el-table-column>
                     </el-table>
                 </el-card>
@@ -39,25 +83,26 @@
 
         <!-- 测试过滤器 -->
         <div id="div1">
-            <table align="center" >
+            <table align="center">
                 <tr class="firstLine">
                     <td>输入数据</td>
                     <td>过滤后的结果</td>
                 </tr>      
                 <tr>
                     <td align="center">
-                        <input v-model= "data"  />
+                        <input v-model="data" />
                     </td>
                     <td align="center">
                         {{ data|capitalize|capitalizeLastLetter }}
                     </td>
                 </tr>
             </table>
-        </div>
+        </div> 
         <button v-xart="{color:'blue'}" @click="test">test</button>
     </div>
 </template>
 <script>
+
 export default {
     name: 'Home',
     data() {
@@ -69,6 +114,7 @@ export default {
             oldLoginLocation: '广州市',
 
             mockServer: "http://127.0.0.1:4523/mock/1223322",
+            loading: false,
 
             tableData: [
                 {
@@ -112,7 +158,7 @@ export default {
                 name: '品牌',
                 todaySales: '今日销量',
                 monthSales: '本月销量',
-                totalSales: '总销量',
+                totalSales: '总销量'
             },
 
             countData: [
@@ -185,8 +231,49 @@ export default {
     methods: {
         // test 
         test() {
-            console.log(this.$router.options)
+            this.getList();
+            console.log(this.tableData)
+        },
+
+
+        // 拉取列表data
+        getList() {
+            this.loading = true;
+
+            // const { data } = await fetchList(this.listQuery)
+            // 处理列表
+            this.tableData.map(v => {
+                // v.edit = false;   // 直接修改不能引起已经渲染好的dom内容的改变
+                this.$set(v, 'edit', false);   // https://vuejs.org/v2/guide/reactivity.html
+                v.originalName = v.name;    // 做可编辑的name的备份
+                return v;
+            })
+            this.loading = false;
+        },
+
+        confirmEdit(result) {
+            console.log(result);
+            result.edit = false;
+            result.originalName = result.name;    // 备份值也要修改
+            this.$message({
+                message: '修改成功',
+                type: 'success'
+            })
+        },
+
+
+        cancelEdit(result) {
+            result.name = result.originalName;
+            result.edit = false;
+            this.$message({
+                message: '取消修改',
+                type: 'warning'
+            })
         }
+    },
+
+    created() {
+        this.getList();
     }
 }
 
@@ -249,5 +336,9 @@ Vue.directive('xart',{
 
 tr.firstLine{
     background-color: lightGray;
+}
+
+.edit-input {
+  padding-right: 5px;
 }
 </style>
