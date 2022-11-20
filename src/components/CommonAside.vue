@@ -53,6 +53,13 @@
                 url: 'UserManage/UserManage'
             },
             {
+                path: '/markdown',
+                name: 'markdown',
+                label: 'md文本编辑器',
+                icon: 'user',
+                url: 'markdownEditor/markdownEditor'
+            },
+            {
                 label: '其他',
                 icon: 'location',
                 children: [

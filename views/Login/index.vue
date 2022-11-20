@@ -218,7 +218,7 @@ export default {
 </script>
 
 
-
+<!-- 如果想在页面中覆盖某个element组件的样式，因为element-ui样式是全局引入的，所以样式不能加scoped -->
 <style lang="scss">
 
 $bg:#1b2c42;

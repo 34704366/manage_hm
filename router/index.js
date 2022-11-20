@@ -27,6 +27,11 @@ export const constantRoutes = [
                 name: 'user',
                 component: () => import('../views/User')    // 如果是文件夹，不要加.vue
             },
+            {
+                path: '/markdown',
+                name: 'markdown',
+                component: () => import('../src/components/MarkdownEditor')
+            }
             
         ]
     },
