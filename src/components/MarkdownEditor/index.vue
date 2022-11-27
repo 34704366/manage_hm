@@ -12,6 +12,7 @@
 import Editor from 'tui-editor'
 import defaultOptions from './default-options'
 
+
 // deps for editor
 import 'codemirror/lib/codemirror.css' // codemirror
 import 'tui-editor/dist/tui-editor.css' // editor ui
@@ -87,7 +88,14 @@ export default {
         }
     },
     mounted() {
-        this.initEditor()
+        this.initEditor();
+
+        window.onload = function() {
+
+            var ua = navigator.userAgent.toLowerCase();
+            console.log(ua)
+        }
+        
     },
     destroyed() {
         this.destroyEditor()
@@ -125,7 +133,14 @@ export default {
         },
         getHtml() {
             this.html = this.editor.getHtml();
-        }
-    }
+        },
+
+    },
 }
 </script>
+<style lang="scss" scoped>
+.test {
+    color: rgb(158, 80, 80);
+    background-color: aqua;
+}
+</style>

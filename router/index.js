@@ -98,6 +98,8 @@ const router = createRouter();
 
 export function resetRouter() {
     const newRouter = createRouter();
+
+    // 通过重置matcher来重置路由配置，可以实现不刷新页面的路由配置重置
     router.matcher = newRouter.matcher    // reset router
 }
 
