@@ -92,8 +92,8 @@ export default {
 
         window.onload = function() {
 
-            var ua = navigator.userAgent.toLowerCase();
-            console.log(ua)
+            let s = 'hello'
+            console.log(s.at(-2))
         }
         
     },
