@@ -92,8 +92,7 @@ export default {
 
         window.onload = function() {
 
-            let s = 'hello'
-            console.log(s.at(-2))
+    
         }
         
     },
