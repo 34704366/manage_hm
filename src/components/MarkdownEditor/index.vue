@@ -2,7 +2,7 @@
     <div class="components-container">
         <div :id="id"></div>
         <el-button style="margin-top:80px;" type="primary" icon="el-icon-document" @click="getHtml">
-            Get HTML
+            获取HTML格式输出
         </el-button>
         <div v-html="html" />
     </div>
